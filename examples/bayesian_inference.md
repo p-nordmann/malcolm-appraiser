@@ -30,6 +30,7 @@ In fact, we observe a $y_1$ value, which is close to $y_0$ with some added noise
 $$y_1 = y_0 + \nu$$
 where $\nu$ is some random noise. In what follows, we will consider $\nu$ to be gaussian of mean $0$, that is
 $$ \nu \sim \mathcal{N}(0,\,\sigma^2) $$
+
 but the same reasoning can really be applied to measurements with any kind of noise.
 
 Going back to our forward model and latent variable, this means that we don't actually want to find a single $x_0$ value, but instead gather as much information about $X$ as we can.
@@ -58,8 +59,8 @@ $p_X(\cdot)$ is called *prior distribution* and $p_{Y+\nu}(y_1 | X=\cdot)$ is ca
 
 $p_X( \cdot | Y+\nu = y_1)$ is called *posterior distribution*.
 
-Intuitively, given an observation, we update our *prior* knowledge about $X$ using the *likelihood of the observation*
-and get the *posterior distribution of $X$*.
+Intuitively, given an observation, we update our prior knowledge about $X$ using the likelihood of the observation
+and get the posterior distribution of $X$.
 
 The last point about the denominator being constant is useful in practice.
 We will usually want to sample from the posterior distribution and most sampling techniques are
@@ -97,6 +98,7 @@ $$\mathbb{P}(x_0 > 2 | Y + \nu = 0)$$
 ### The likelihood
 
 We have $Y=f(X)$, hence for some values $u,v,w$, we can write the likelihood as:
+
 $$
 \begin{aligned}
 p_{Y+\nu}(y_1 | X=(u,v,w)) & = p_{\nu}(y_1 - f(u,v,w))\\
@@ -123,6 +125,7 @@ $$p_X( u,v,w | Y+\nu = 0) \propto \exp(-\frac{f(u,v,w)^2}{8})$$
 Once we know how to compute the posterior distribution, we want to compute the desired quantity.
 
 We remind that:
+
 $$
 \begin{aligned}
 \mathbb{P}(x_0 > 2 | Y + \nu = 0) & = \mathbb{E}( \mathbb{1}_{x_0 > 2} | Y+ \nu = 0)\\
