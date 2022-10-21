@@ -50,7 +50,7 @@ $$p_X( \cdot | Y+\nu = y_1)$$
 We rewrite this distribution using Bayes' formula:
 $$p_X( \cdot | Y+\nu = y_1) = \frac{p_{Y+\nu}(y_1 | X=\cdot)p_X(\cdot)}{\int_{x} p_{Y+\nu}(y_1 | X=x)p_X(x) \,dx}$$
 
-We remark the following:
+We note the following:
 - the right term in the numerator represents what we already know about $X$
 - the left term in the numerator represents, for a value $x_0$, how likely we are to observe $y_1$
 - the denominator $\int_{x} p_{Y+\nu}(y_1 | X=x)p_X(x) \,dx$ is a constant
@@ -80,7 +80,7 @@ $$p_X( \cdot | Y+\nu = y_1) \propto p_{Y+\nu}(y_1 | X=\cdot)$$
 
 ## A simple example
 
-We give a more practical example, taken from [Example 0 - Working with a simple function](./simple_function.ipynb).
+We give a synthetic example, taken from [Example 0 - Working with a simple function](./simple_function.ipynb).
 
 
 ### The problem
