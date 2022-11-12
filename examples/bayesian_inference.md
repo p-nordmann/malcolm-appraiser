@@ -48,12 +48,12 @@ That is, we are interested in knowing the conditional distribution:
 $$p_X( \cdot | Y+\nu = y_1)$$
 
 We rewrite this distribution using Bayes' formula:
-$$p_X( \cdot | Y+\nu = y_1) = \frac{p_{Y+\nu}(y_1 | X=\cdot)p_X(\cdot)}{\int_{x} p_{Y+\nu}(y_1 | X=x)p_X(x) \,dx}$$
+$$p_X( \cdot | Y+\nu = y_1) = \frac{p_{Y+\nu}(y_1 | X=\cdot)p_X(\cdot)}{p_{Y+\nu}(y_1)}$$
 
 We note the following:
 - the right term in the numerator represents what we already know about $X$
 - the left term in the numerator represents, for a value $x_0$, how likely we are to observe $y_1$
-- the denominator $\int_{x} p_{Y+\nu}(y_1 | X=x)p_X(x) \,dx$ is a constant
+- the denominator $p_{Y+\nu}(y_1)$ is a constant
 
 $p_X(\cdot)$ is called *prior distribution* and $p_{Y+\nu}(y_1 | X=\cdot)$ is called *likelihood*.
 
