@@ -1,10 +1,11 @@
 import random
 from copy import deepcopy
-from typing import Iterable, Sequence
+from typing import Sequence
 
 import grpc
 
-from malcolm_appraiser.malcolms_service_pb2 import Boundaries, TrueSamples, WalkRequest
+from malcolm_appraiser.malcolms_service_pb2 import (Boundaries, TrueSamples,
+                                                    WalkRequest)
 from malcolm_appraiser.malcolms_service_pb2_grpc import AppraiserStub
 
 
@@ -47,7 +48,7 @@ class MalcolmSampler:
             )
             self.posterior_uuid = uuid.uuid
 
-    def make_samples(self, amount: int) -> Iterable:
+    def make_samples(self, amount: int) -> Sequence:
         """Generates requested amount of samples using the grpc service."""
         # Choose an origin point at random.
         dimension = len(self.boundaries)
@@ -55,6 +56,7 @@ class MalcolmSampler:
             random.random() * (bounds[1] - bounds[0]) + bounds[0]
             for bounds in self.boundaries
         ]
+        points = []
         with grpc.insecure_channel(self.url) as chan:
             for samples in AppraiserStub(chan).Walk(
                 WalkRequest(
@@ -63,5 +65,10 @@ class MalcolmSampler:
                     number_of_samples=amount,
                 )
             ):
-                for k in range(0, len(samples.coordinates), dimension):
-                    yield samples.coordinates[k : k + dimension]
+                points.extend(
+                    [
+                        samples.coordinates[k : k + dimension]
+                        for k in range(0, len(samples.coordinates), dimension)
+                    ]
+                )
+        return points
