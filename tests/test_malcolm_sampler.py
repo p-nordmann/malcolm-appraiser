@@ -4,10 +4,8 @@ We provide basic unit tests here, to be able to have at least some confidence th
 TODO much too much...
 """
 
-from concurrent import futures
 from unittest import mock
 
-import grpc
 import pytest
 
 from malcolm_appraiser import MalcolmSampler
@@ -16,10 +14,6 @@ from malcolm_appraiser.malcolms_service_pb2 import (
     Boundaries,
     Samples,
     WalkRequest,
-)
-from malcolm_appraiser.malcolms_service_pb2_grpc import (
-    AppraiserStub,
-    add_AppraiserServicer_to_server,
 )
 
 
