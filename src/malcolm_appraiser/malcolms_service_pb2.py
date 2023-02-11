@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16malcolms_service.proto\x12\x04grpc\"\x14\n\x04UUID\x12\x0c\n\x04uuid\x18\x01 \x01(\t\"@\n\nBoundaries\x12\x11\n\tdimension\x18\x01 \x01(\x03\x12\x0e\n\x06infima\x18\x02 \x03(\x01\x12\x0f\n\x07suprema\x18\x03 \x03(\x01\"N\n\x0bWalkRequest\x12\x0c\n\x04uuid\x18\x03 \x01(\t\x12\x16\n\x0estarting_point\x18\x01 \x03(\x01\x12\x19\n\x11number_of_samples\x18\x02 \x01(\x03\",\n\x07Samples\x12\x0c\n\x04uuid\x18\x01 \x01(\t\x12\x13\n\x0b\x63oordinates\x18\x02 \x03(\x01\"J\n\x0bTrueSamples\x12\x0c\n\x04uuid\x18\x01 \x01(\t\x12\x13\n\x0b\x63oordinates\x18\x02 \x03(\x01\x12\x18\n\x10posterior_values\x18\x03 \x03(\x01\x32\xa4\x01\n\tAppraiser\x12/\n\rPutBoundaries\x12\x10.grpc.Boundaries\x1a\n.grpc.UUID\"\x00\x12\x38\n\x13RegisterTrueSamples\x12\x11.grpc.TrueSamples\x1a\n.grpc.UUID\"\x00(\x01\x12,\n\x04Walk\x12\x11.grpc.WalkRequest\x1a\r.grpc.Samples\"\x00\x30\x01\x42,Z*github.com/p-nordmann/malcolm-sampler/grpcb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16malcolms_service.proto\x12\x04grpc\"\x1f\n\x0e\x42oundariesUUID\x12\r\n\x05value\x18\x01 \x01(\t\"\x1e\n\rPosteriorUUID\x12\r\n\x05value\x18\x01 \x01(\t\"@\n\nBoundaries\x12\x11\n\tdimension\x18\x01 \x01(\x03\x12\x0e\n\x06infima\x18\x02 \x03(\x01\x12\x0f\n\x07suprema\x18\x03 \x03(\x01\"i\n\x14PosteriorValuesBatch\x12\"\n\x04uuid\x18\x01 \x01(\x0b\x32\x14.grpc.BoundariesUUID\x12\x13\n\x0b\x63oordinates\x18\x02 \x03(\x01\x12\x18\n\x10posterior_values\x18\x03 \x03(\x01\"W\n\x12MakeSamplesRequest\x12!\n\x04uuid\x18\x01 \x01(\x0b\x32\x13.grpc.PosteriorUUID\x12\x0e\n\x06origin\x18\x02 \x03(\x01\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x03\"#\n\x0cSamplesBatch\x12\x13\n\x0b\x63oordinates\x18\x01 \x03(\x01\x32\xd1\x01\n\x0eMalcolmSampler\x12\x39\n\rAddBoundaries\x12\x10.grpc.Boundaries\x1a\x14.grpc.BoundariesUUID\"\x00\x12\x43\n\x0c\x41\x64\x64Posterior\x12\x1a.grpc.PosteriorValuesBatch\x1a\x13.grpc.PosteriorUUID\"\x00(\x01\x12?\n\x0bMakeSamples\x12\x18.grpc.MakeSamplesRequest\x1a\x12.grpc.SamplesBatch\"\x00\x30\x01\x42,Z*github.com/p-nordmann/malcolm-sampler/grpcb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'malcolms_service_pb2', globals())
@@ -21,16 +21,18 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'Z*github.com/p-nordmann/malcolm-sampler/grpc'
-  _UUID._serialized_start=32
-  _UUID._serialized_end=52
-  _BOUNDARIES._serialized_start=54
-  _BOUNDARIES._serialized_end=118
-  _WALKREQUEST._serialized_start=120
-  _WALKREQUEST._serialized_end=198
-  _SAMPLES._serialized_start=200
-  _SAMPLES._serialized_end=244
-  _TRUESAMPLES._serialized_start=246
-  _TRUESAMPLES._serialized_end=320
-  _APPRAISER._serialized_start=323
-  _APPRAISER._serialized_end=487
+  _BOUNDARIESUUID._serialized_start=32
+  _BOUNDARIESUUID._serialized_end=63
+  _POSTERIORUUID._serialized_start=65
+  _POSTERIORUUID._serialized_end=95
+  _BOUNDARIES._serialized_start=97
+  _BOUNDARIES._serialized_end=161
+  _POSTERIORVALUESBATCH._serialized_start=163
+  _POSTERIORVALUESBATCH._serialized_end=268
+  _MAKESAMPLESREQUEST._serialized_start=270
+  _MAKESAMPLESREQUEST._serialized_end=357
+  _SAMPLESBATCH._serialized_start=359
+  _SAMPLESBATCH._serialized_end=394
+  _MALCOLMSAMPLER._serialized_start=397
+  _MALCOLMSAMPLER._serialized_end=606
 # @@protoc_insertion_point(module_scope)

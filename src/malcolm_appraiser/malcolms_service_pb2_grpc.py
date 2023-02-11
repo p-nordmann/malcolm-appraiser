@@ -5,8 +5,8 @@ import grpc
 from . import malcolms_service_pb2 as malcolms__service__pb2
 
 
-class AppraiserStub(object):
-    """TODO(p-nordmann): rename service and messages."""
+class MalcolmSamplerStub(object):
+    """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
         """Constructor.
@@ -14,83 +14,89 @@ class AppraiserStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.PutBoundaries = channel.unary_unary(
-            "/grpc.Appraiser/PutBoundaries",
+        self.AddBoundaries = channel.unary_unary(
+            "/grpc.MalcolmSampler/AddBoundaries",
             request_serializer=malcolms__service__pb2.Boundaries.SerializeToString,
-            response_deserializer=malcolms__service__pb2.UUID.FromString,
+            response_deserializer=malcolms__service__pb2.BoundariesUUID.FromString,
         )
-        self.RegisterTrueSamples = channel.stream_unary(
-            "/grpc.Appraiser/RegisterTrueSamples",
-            request_serializer=malcolms__service__pb2.TrueSamples.SerializeToString,
-            response_deserializer=malcolms__service__pb2.UUID.FromString,
+        self.AddPosterior = channel.stream_unary(
+            "/grpc.MalcolmSampler/AddPosterior",
+            request_serializer=malcolms__service__pb2.PosteriorValuesBatch.SerializeToString,
+            response_deserializer=malcolms__service__pb2.PosteriorUUID.FromString,
         )
-        self.Walk = channel.unary_stream(
-            "/grpc.Appraiser/Walk",
-            request_serializer=malcolms__service__pb2.WalkRequest.SerializeToString,
-            response_deserializer=malcolms__service__pb2.Samples.FromString,
+        self.MakeSamples = channel.unary_stream(
+            "/grpc.MalcolmSampler/MakeSamples",
+            request_serializer=malcolms__service__pb2.MakeSamplesRequest.SerializeToString,
+            response_deserializer=malcolms__service__pb2.SamplesBatch.FromString,
         )
 
 
-class AppraiserServicer(object):
-    """TODO(p-nordmann): rename service and messages."""
+class MalcolmSamplerServicer(object):
+    """Missing associated documentation comment in .proto file."""
 
-    def PutBoundaries(self, request, context):
-        """PutBoundaries registers boundaries that problems can be made of.
-        It returns an UUID that will be required by the rpc RegisterTrueSamples.
+    def AddBoundaries(self, request, context):
+        """AddBoundaries registers boundaries of a parameter space.
+
+        It returns the UUID to refer to these boundaries.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
-    def RegisterTrueSamples(self, request_iterator, context):
-        """RegisterTrueSamples registers posterior values sampled from the true posterior.
+    def AddPosterior(self, request_iterator, context):
+        """AddPosterior registers posterior values sampled from the true posterior.
+
         The sampling problem starts recording when the first sample is streamed.
         It finishes when the stream is closed and an identification token is returned.
+
+        This rpc expects samples in batches.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
-    def Walk(self, request, context):
-        """WalkFrom requests to perform one walk from a requested point for a requested number of steps.
+    def MakeSamples(self, request, context):
+        """MakeSamples samples the requested number of points.
 
-        Returns the generated points.
+        Streams the generated points.
+
+        Whether samples are batched in responses is implementation-specific.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
 
-def add_AppraiserServicer_to_server(servicer, server):
+def add_MalcolmSamplerServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        "PutBoundaries": grpc.unary_unary_rpc_method_handler(
-            servicer.PutBoundaries,
+        "AddBoundaries": grpc.unary_unary_rpc_method_handler(
+            servicer.AddBoundaries,
             request_deserializer=malcolms__service__pb2.Boundaries.FromString,
-            response_serializer=malcolms__service__pb2.UUID.SerializeToString,
+            response_serializer=malcolms__service__pb2.BoundariesUUID.SerializeToString,
         ),
-        "RegisterTrueSamples": grpc.stream_unary_rpc_method_handler(
-            servicer.RegisterTrueSamples,
-            request_deserializer=malcolms__service__pb2.TrueSamples.FromString,
-            response_serializer=malcolms__service__pb2.UUID.SerializeToString,
+        "AddPosterior": grpc.stream_unary_rpc_method_handler(
+            servicer.AddPosterior,
+            request_deserializer=malcolms__service__pb2.PosteriorValuesBatch.FromString,
+            response_serializer=malcolms__service__pb2.PosteriorUUID.SerializeToString,
         ),
-        "Walk": grpc.unary_stream_rpc_method_handler(
-            servicer.Walk,
-            request_deserializer=malcolms__service__pb2.WalkRequest.FromString,
-            response_serializer=malcolms__service__pb2.Samples.SerializeToString,
+        "MakeSamples": grpc.unary_stream_rpc_method_handler(
+            servicer.MakeSamples,
+            request_deserializer=malcolms__service__pb2.MakeSamplesRequest.FromString,
+            response_serializer=malcolms__service__pb2.SamplesBatch.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        "grpc.Appraiser", rpc_method_handlers
+        "grpc.MalcolmSampler", rpc_method_handlers
     )
     server.add_generic_rpc_handlers((generic_handler,))
 
 
 # This class is part of an EXPERIMENTAL API.
-class Appraiser(object):
-    """TODO(p-nordmann): rename service and messages."""
+class MalcolmSampler(object):
+    """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def PutBoundaries(
+    def AddBoundaries(
         request,
         target,
         options=(),
@@ -105,9 +111,9 @@ class Appraiser(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/grpc.Appraiser/PutBoundaries",
+            "/grpc.MalcolmSampler/AddBoundaries",
             malcolms__service__pb2.Boundaries.SerializeToString,
-            malcolms__service__pb2.UUID.FromString,
+            malcolms__service__pb2.BoundariesUUID.FromString,
             options,
             channel_credentials,
             insecure,
@@ -119,7 +125,7 @@ class Appraiser(object):
         )
 
     @staticmethod
-    def RegisterTrueSamples(
+    def AddPosterior(
         request_iterator,
         target,
         options=(),
@@ -134,9 +140,9 @@ class Appraiser(object):
         return grpc.experimental.stream_unary(
             request_iterator,
             target,
-            "/grpc.Appraiser/RegisterTrueSamples",
-            malcolms__service__pb2.TrueSamples.SerializeToString,
-            malcolms__service__pb2.UUID.FromString,
+            "/grpc.MalcolmSampler/AddPosterior",
+            malcolms__service__pb2.PosteriorValuesBatch.SerializeToString,
+            malcolms__service__pb2.PosteriorUUID.FromString,
             options,
             channel_credentials,
             insecure,
@@ -148,7 +154,7 @@ class Appraiser(object):
         )
 
     @staticmethod
-    def Walk(
+    def MakeSamples(
         request,
         target,
         options=(),
@@ -163,9 +169,9 @@ class Appraiser(object):
         return grpc.experimental.unary_stream(
             request,
             target,
-            "/grpc.Appraiser/Walk",
-            malcolms__service__pb2.WalkRequest.SerializeToString,
-            malcolms__service__pb2.Samples.FromString,
+            "/grpc.MalcolmSampler/MakeSamples",
+            malcolms__service__pb2.MakeSamplesRequest.SerializeToString,
+            malcolms__service__pb2.SamplesBatch.FromString,
             options,
             channel_credentials,
             insecure,

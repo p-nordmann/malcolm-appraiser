@@ -4,8 +4,14 @@ from typing import Sequence
 
 import grpc
 
-from malcolm_appraiser.malcolms_service_pb2 import Boundaries, TrueSamples, WalkRequest
-from malcolm_appraiser.malcolms_service_pb2_grpc import AppraiserStub
+from malcolm_appraiser.malcolms_service_pb2 import (
+    Boundaries,
+    BoundariesUUID,
+    MakeSamplesRequest,
+    PosteriorUUID,
+    PosteriorValuesBatch,
+)
+from malcolm_appraiser.malcolms_service_pb2_grpc import MalcolmSamplerStub
 
 
 class MalcolmSampler:
@@ -20,32 +26,28 @@ class MalcolmSampler:
     def set_boundaries(self, boundaries: Sequence):
         """Registers boundaries to the grpc service."""
         with grpc.insecure_channel(self.url) as chan:
-            uuid = AppraiserStub(chan).PutBoundaries(
+            uuid = MalcolmSamplerStub(chan).AddBoundaries(
                 Boundaries(
                     dimension=len(boundaries),
                     infima=[bounds[0] for bounds in boundaries],
                     suprema=[bounds[1] for bounds in boundaries],
                 )
             )
-            self.boundaries_uuid = uuid.uuid
+            self.boundaries_uuid = uuid.value
         self.boundaries = deepcopy(boundaries)
 
     def set_posterior(self, points: Sequence, posterior_values: Sequence):
         """Registers posterior values to the grpc service."""
         with grpc.insecure_channel(self.url) as chan:
-            uuid = AppraiserStub(chan).RegisterTrueSamples(
-                iter(
-                    [
-                        TrueSamples(
-                            uuid=self.boundaries_uuid,
-                            coordinates=point,
-                            posterior_values=[posterior_value],
-                        )
-                        for point, posterior_value in zip(points, posterior_values)
-                    ]
+            uuid = MalcolmSamplerStub(chan).AddPosterior(
+                PosteriorValuesBatch(
+                    uuid=BoundariesUUID(value=self.boundaries_uuid),
+                    coordinates=point,
+                    posterior_values=[posterior_value],
                 )
+                for point, posterior_value in zip(points, posterior_values)
             )
-            self.posterior_uuid = uuid.uuid
+            self.posterior_uuid = uuid.value
 
     def make_samples(self, amount: int) -> Sequence:
         """Generates requested amount of samples using the grpc service."""
@@ -56,11 +58,11 @@ class MalcolmSampler:
         ]
         points = []
         with grpc.insecure_channel(self.url) as chan:
-            for samples in AppraiserStub(chan).Walk(
-                WalkRequest(
-                    uuid=self.posterior_uuid,
-                    starting_point=origin,
-                    number_of_samples=amount,
+            for samples in MalcolmSamplerStub(chan).MakeSamples(
+                MakeSamplesRequest(
+                    uuid=PosteriorUUID(value=self.posterior_uuid),
+                    origin=origin,
+                    amount=amount,
                 )
             ):
                 points.extend(
